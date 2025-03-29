@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='transactions.css') }}">
+</head>
+<body>
+    <h1>Recent UPI Transactions</h1>
+
+    {% if transactions %}
+    <table border="1">
+        <tr>
+            <th>Amount</th>
+            <th>Sender</th>
+            <th>Subject</th>
+        </tr>
+        {% for txn in transactions %}
+        <tr>
+            <td>₹{{ txn.amount }}</td>
+            <td>{{ txn.sender }}</td>
+            <td>{{ txn.subject }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No transactions found.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
