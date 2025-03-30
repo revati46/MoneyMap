@@ -1,5 +1,6 @@
 from flask import Flask, render_template , redirect ,session , request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import subprocess
 import bcrypt
 import openai
 import pickle
@@ -89,11 +90,13 @@ def logout():
 @app.route("/transactions")
 def display_transactions():
     try:
-        df = pd.read_excel(EXCEL_FILE, sheet_name=SHEET_NAME)
-        transactions = df.to_dict(orient="records") 
-        return render_template("transactions.html", transactions=transactions)
+        # Run ExpenseAutomator.py and capture its output
+        result = subprocess.run(["python", "ExpenseAutomator.py"], capture_output=True, text=True)
+        output = result.stdout  # Get the output of the script
+        
+        return render_template("transactions.html", transactions=output)
     except Exception as e:
-        return f"Error reading transactions: {e}"
+        return f"Error running ExpenseAutomator.py: {e}"
 
 
 @app.route('/predict', methods=['POST'])

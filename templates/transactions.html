@@ -7,20 +7,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='transactions.css') }}">
 </head>
 <body>
-    <h1>Recent UPI Transactions</h1>
+    <h1>Today's UPI Transactions</h1>
 
     {% if transactions %}
     <table border="1">
         <tr>
             <th>Amount</th>
             <th>Sender</th>
-            <th>Subject</th>
+            <th>Date</th>
         </tr>
         {% for txn in transactions %}
         <tr>
             <td>₹{{ txn.amount }}</td>
             <td>{{ txn.sender }}</td>
-            <td>{{ txn.subject }}</td>
+            <td>{{ txn.date }}</td>
         </tr>
         {% endfor %}
     </table>
