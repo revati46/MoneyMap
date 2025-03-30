@@ -1,0 +1,6 @@
+
+==================================================
+[30-Mar-2025 11:20:30] 'Personal Expense' -> Previous: Rs.0.00, Added: Rs.50.00, New: Rs.50.00
+
+Total Expense Added Today: Rs. 50.00
+Total Amount Skipped: Rs. 0.00

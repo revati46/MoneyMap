@@ -14,7 +14,7 @@ EMAIL_USER = "revati.kumbhar0106@gmail.com"  # Replace with your Gmail
 EMAIL_PASS = "oqix xlsr czmo xtxn"# Use App Password if 2FA is enabled    
 
 # Path to Excel file
-EXCEL_FILE = os.path.join(os.path.dirname(__file__), "Expenses", "Feb 25.xlsx")
+EXCEL_FILE = os.path.join(os.path.dirname(__file__), "../Expenses", "Feb 25.xlsx")
 SHEET_NAME = "Feb 25"  # Target sheet for February transactions
 
 # Get current date
@@ -258,7 +258,7 @@ def update_excel(transactions):
                 new_balance = prev_balance + txn["amount"]
                 ws.cell(row=category_row, column=3, value=new_balance)
 
-            # ✅ **LOG THE NON-FOOD EXPENSE UPDATE**
+            # **LOG THE NON-FOOD EXPENSE UPDATE**
             total_amount_added += txn["amount"]
             category_sums[category_name] = category_sums.get(category_name, 0) + txn["amount"]
 
@@ -288,7 +288,7 @@ def update_excel(transactions):
             log_file.write(entry + "\n")
         log_file.write(f"\nTotal Expense Added Today: Rs. {total_amount_added:.2f}\n")
         log_file.write(f"Total Amount Skipped: Rs. {total_amount_skipped:.2f}\n")
-        log_file.write("\n📂 **Category-wise Breakdown:**\n")
+        log_file.write("\n📂 **Category-wise Breakdown:**\n".encode("utf-8", "ignore").decode("utf-8"))
         for category, amount in category_sums.items():
             log_file.write(f"   - {category}: Rs. {amount:.2f}\n")
         log_file.write("\n" + "=" * 50 + "\n\n")

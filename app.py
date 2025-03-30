@@ -1,6 +1,7 @@
 from flask import Flask, render_template , redirect ,session , request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import subprocess
+import json
 import bcrypt
 import openai
 import pickle
@@ -92,11 +93,31 @@ def display_transactions():
     try:
         # Run ExpenseAutomator.py and capture its output
         result = subprocess.run(["python", "ExpenseAutomator.py"], capture_output=True, text=True)
-        output = result.stdout  # Get the output of the script
         
-        return render_template("transactions.html", transactions=output)
+        # Extract transaction details from script output
+        output_lines = result.stdout.split("\n")  # Convert output to a list of lines
+        transactions = []
+
+        # Parsing transactions from ExpenseAutomator.py output
+        for line in output_lines:
+            if line.startswith("✅ Amount: Rs."):
+                parts = line.split(", ")
+                amount = parts[0].split(": Rs.")[1]
+                upi_id = parts[1].split(": ")[1]
+                party = parts[2].split(": ")[1]
+                date = parts[3].split(": ")[1]
+                
+                transactions.append({
+                    "amount": amount,
+                    "upi_id": upi_id,
+                    "party": party,
+                    "date": date
+                })
+
+        return render_template("transactions.html", transactions=transactions)
+
     except Exception as e:
-        return f"Error running ExpenseAutomator.py: {e}"
+        return f"Error: {e}"
 
 
 @app.route('/predict', methods=['POST'])
